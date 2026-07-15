@@ -1,0 +1,15 @@
+^.*\.Rproj$
+^\.Rproj\.user$
+^\.github$
+^\.lintr$
+^\.DS_Store$
+^README\.Rmd$
+^README\.md$
+^README\.html$
+^LICENSE\.md$
+^_pkgdown\.yml$
+^docs$
+^cran-comments\.md$
+^CODE_OF_CONDUCT\.md$
+^CONTRIBUTING\.md$
+^codemeta\.json$

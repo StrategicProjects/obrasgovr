@@ -1,0 +1,71 @@
+url: https://strategicprojects.github.io/obrasgov/
+
+template:
+  bootstrap: 5
+  bootswatch: flatly
+  bslib:
+    primary: "#1351B4"
+    base_font: system-ui
+    heading_font: system-ui
+    code_font: monospace
+
+lang: pt
+
+home:
+  title: obrasgov | Dados abertos de infraestrutura publica no R
+  description: >
+    Interface R para projetos, execucao fisica, contratos, empenhos e
+    geometrias da API de Dados Abertos do ObrasGov.
+
+navbar:
+  structure:
+    left: [intro, reference, articles, news]
+    right: [search, github]
+  components:
+    intro:
+      text: Comece aqui
+      href: articles/obrasgov.html
+    reference:
+      text: Referencia
+      href: reference/index.html
+    articles:
+      text: Artigos
+      menu:
+      - text: Paginacao e dados aninhados
+        href: articles/paginacao-e-dados-aninhados.html
+    news:
+      text: Novidades
+      href: news/index.html
+    github:
+      icon: fab fa-github
+      aria-label: GitHub
+      href: https://github.com/StrategicProjects/obrasgov
+
+reference:
+- title: Consultas
+  desc: Recursos da API de Dados Abertos do ObrasGov.
+  contents:
+  - obter_projetos
+  - obter_execucao_fisica
+  - obter_contratos
+  - obter_empenhos
+  - obter_geometrias
+  - obter_historico_situacao
+  - obter_estudos_viabilidade
+  - obter_data_atualizacao
+- title: Descoberta e metadados
+  contents:
+  - obrasgov_recursos
+  - obrasgov_filtros
+  - obrasgov_metadados
+
+articles:
+- title: Guias
+  contents:
+  - obrasgov
+  - paginacao-e-dados-aninhados
+
+footer:
+  structure:
+    left: developed_by
+    right: built_with

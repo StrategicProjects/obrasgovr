@@ -1,0 +1,86 @@
+---
+title: "Introducao ao obrasgov"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Introducao ao obrasgov}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+```
+
+O `obrasgov` acessa a API publica do Cadastro Integrado de Projetos de
+Investimentos do Governo Federal. O pacote foi desenhado para pesquisas
+reprodutiveis: os filtros sao validados localmente, a paginacao e explicita e
+os resultados usam tipos previsiveis.
+
+```{r setup}
+library(obrasgov)
+```
+
+## Recursos
+
+Cada endpoint publico da API possui uma funcao correspondente.
+
+```{r resources}
+obrasgov_recursos()
+```
+
+Os filtros sao passados por nome em `...`. A funcao `obrasgov_filtros()` evita
+que seja necessario memorizar os parametros de cada endpoint.
+
+```{r filters}
+obrasgov_filtros("execucao_fisica")
+```
+
+## Consultas
+
+A consulta abaixo retorna a primeira pagina de projetos de Pernambuco. Ela nao
+e executada durante a construcao da vignette para que a instalacao do pacote
+nao dependa da disponibilidade de um servico externo.
+
+```{r query, eval = FALSE}
+projetos <- obter_projetos(
+  uf_principal = "PE",
+  tamanho_da_pagina = 100
+)
+
+projetos
+```
+
+Os recursos podem ser relacionados pelo campo `id_projeto_investimento`.
+
+```{r related, eval = FALSE}
+id <- projetos$id_projeto_investimento[[1]]
+
+execucao <- obter_execucao_fisica(id_projeto_investimento = id)
+contratos <- obter_contratos(id_projeto_investimento = id)
+empenhos <- obter_empenhos(id_projeto_investimento = id)
+```
+
+## Atualizacao da fonte
+
+A API publica informa a data da carga mais recente. Isso permite registrar a
+versao temporal da fonte em scripts e relatorios.
+
+```{r updated, eval = FALSE}
+obter_data_atualizacao()
+```
+
+## Configuracao
+
+O pacote nao exige autenticacao. Tres opcoes permitem adaptar o transporte sem
+alterar cada chamada:
+
+```{r options, eval = FALSE}
+options(
+  obrasgov.base_url = "https://api-publica.obrasgov.gestao.gov.br/obras",
+  obrasgov.timeout = 30,
+  obrasgov.user_agent = "meu-projeto/1.0 (contato@example.org)"
+)
+```
+
+Por padrao, o cliente solicita HTTP/2 sobre TLS, repete falhas transitorias e
+limita o acesso a 60 requisicoes por minuto.
