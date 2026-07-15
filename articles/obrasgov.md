@@ -1,107 +1,215 @@
-# Introducao ao obrasgov
+# Introduction to obrasgov
 
-O `obrasgov` acessa a API publica do Cadastro Integrado de Projetos de
-Investimentos do Governo Federal. O pacote foi desenhado para pesquisas
-reprodutiveis: os filtros sao validados localmente, a paginacao e
-explicita e os resultados usam tipos previsiveis.
+`obrasgov` provides an R interface to the Brazilian federal government’s
+ObrasGov Open Data API. It validates filters locally, handles HTTP
+failures, collects paginated results, and returns tibbles with
+predictable types.
+
+This vignette walks through the usual sequence: discover a resource,
+inspect its filters, make a small query, inspect the result, and
+retrieve related data.
 
 ``` r
 
 library(obrasgov)
 ```
 
-## Recursos
+## 1. Discover available resources
 
-Cada endpoint publico da API possui uma funcao correspondente.
+Start with
+[`list_resources()`](https://strategicprojects.github.io/obrasgov/reference/list_resources.md).
+This function is entirely local and does not contact the API.
 
 ``` r
 
-obrasgov_recursos()
+list_resources()
 #> # A tibble: 8 × 4
-#>   recurso             funcao                    endpoint                paginado
-#>   <chr>               <chr>                     <chr>                   <lgl>   
-#> 1 projetos            obter_projetos            projeto-investimento    TRUE    
-#> 2 empenhos            obter_empenhos            empenho                 TRUE    
-#> 3 execucao_fisica     obter_execucao_fisica     execucao-fisica         TRUE    
-#> 4 contratos           obter_contratos           contrato                TRUE    
-#> 5 geometrias          obter_geometrias          geometria               TRUE    
-#> 6 historico_situacao  obter_historico_situacao  historico-situacao-can… TRUE    
-#> 7 estudos_viabilidade obter_estudos_viabilidade estudo-viabilidade      TRUE    
-#> 8 data_atualizacao    obter_data_atualizacao    data-atualizacao        FALSE
+#>   resource            function_name           endpoint                 paginated
+#>   <chr>               <chr>                   <chr>                    <lgl>    
+#> 1 projects            get_projects            projeto-investimento     TRUE     
+#> 2 commitments         get_commitments         empenho                  TRUE     
+#> 3 physical_execution  get_physical_execution  execucao-fisica          TRUE     
+#> 4 contracts           get_contracts           contrato                 TRUE     
+#> 5 geometries          get_geometries          geometria                TRUE     
+#> 6 status_history      get_status_history      historico-situacao-canc… TRUE     
+#> 7 feasibility_studies get_feasibility_studies estudo-viabilidade       TRUE     
+#> 8 last_update         get_last_update         data-atualizacao         FALSE
 ```
 
-Os filtros sao passados por nome em `...`. A funcao
-[`obrasgov_filtros()`](https://strategicprojects.github.io/obrasgov/reference/obrasgov_filtros.md)
-evita que seja necessario memorizar os parametros de cada endpoint.
+The `function_name` column identifies the function used to query each
+resource. All main package functions use English names. The API’s filter
+names, response fields, and categorical values remain in Portuguese
+because they are part of the official ObrasGov contract.
+
+## 2. Inspect filters before querying
+
+Use
+[`list_filters()`](https://strategicprojects.github.io/obrasgov/reference/list_filters.md)
+to see the accepted filter names and their expected types. For example,
+projects can be filtered by state, status, registration year, dates, and
+several other attributes.
 
 ``` r
 
-obrasgov_filtros("execucao_fisica")
-#> # A tibble: 9 × 3
-#>   filtro                     tipo      valores_permitidos
-#>   <chr>                      <chr>     <list>            
-#> 1 id_projeto_investimento    character <chr [0]>         
-#> 2 percentual_execucao_fisica numeric   <chr [0]>         
-#> 3 dt_inicial_execucao        Date      <chr [0]>         
-#> 4 dt_final_execucao          Date      <chr [0]>         
-#> 5 tipo_instrumento           character <chr [0]>         
-#> 6 tipo_forma_execucao        character <chr [0]>         
-#> 7 dt_criacao_instrumento     Date      <chr [0]>         
-#> 8 dt_cadastro_execucao       Date      <chr [0]>         
-#> 9 dt_atualizacao_execucao    Date      <chr [0]>
+project_filters <- list_filters("projects")
+project_filters[c("filter", "type")]
+#> # A tibble: 29 × 2
+#>    filter                  type     
+#>    <chr>                   <chr>    
+#>  1 id_projeto_investimento character
+#>  2 projeto_estruturante    character
+#>  3 desc_nome               character
+#>  4 nr_cep                  character
+#>  5 desc_endereco           character
+#>  6 desc_projeto            character
+#>  7 desc_funcao_social      character
+#>  8 desc_meta_global        character
+#>  9 dt_inicial_prevista     Date     
+#> 10 dt_final_prevista       Date     
+#> # ℹ 19 more rows
 ```
 
-## Consultas
-
-A consulta abaixo retorna a primeira pagina de projetos de Pernambuco.
-Ela nao e executada durante a construcao da vignette para que a
-instalacao do pacote nao dependa da disponibilidade de um servico
-externo.
+Allowed categorical values are stored in the `allowed_values`
+list-column. The following code retrieves the values accepted by the
+`situacao` filter:
 
 ``` r
 
-projetos <- obter_projetos(
+project_filters$allowed_values[
+  project_filters$filter == "situacao"
+][[1]]
+#> [1] "Cadastrada"  "Cancelada"   "Concluída"   "Em execução" "Inacabada"  
+#> [6] "Paralisada"
+```
+
+Dates can be supplied as `Date` values. The package serializes them
+using the ISO `YYYY-MM-DD` format expected by the API.
+
+## 3. Retrieve a small first page
+
+Begin with a narrow query and a small `page_size`. Network calls are not
+run when this vignette is built, so installation and CRAN checks do not
+depend on the external service.
+
+``` r
+
+projects_pe <- get_projects(
   uf_principal = "PE",
-  tamanho_da_pagina = 100
+  situacao = "Em execução",
+  dt_cadastro = as.Date("2024-01-01"),
+  page_size = 25
 )
 
-projetos
+projects_pe
 ```
 
-Os recursos podem ser relacionados pelo campo `id_projeto_investimento`.
+The returned object is a tibble. Date-like fields such as `dt_cadastro`
+are converted to `Date` when every non-missing value uses the ISO date
+format. Nested one-to-many relationships are preserved as list-columns.
+
+## 4. Inspect pagination metadata
+
+Every paginated result carries retrieval metadata. Check it before
+deciding whether more pages are required.
 
 ``` r
 
-id <- projetos$id_projeto_investimento[[1]]
+metadata <- result_metadata(projects_pe)
 
-execucao <- obter_execucao_fisica(id_projeto_investimento = id)
-contratos <- obter_contratos(id_projeto_investimento = id)
-empenhos <- obter_empenhos(id_projeto_investimento = id)
+metadata$total_items
+metadata$total_pages
+metadata$pages_retrieved
+metadata$retrieved_at
 ```
 
-## Atualizacao da fonte
+The initial request retrieves only one page. To collect more pages
+safely, use `all_pages = TRUE` together with a finite `page_limit`. See
+[`vignette("pagination-and-nested-data")`](https://strategicprojects.github.io/obrasgov/articles/pagination-and-nested-data.md)
+for details.
 
-A API publica informa a data da carga mais recente. Isso permite
-registrar a versao temporal da fonte em scripts e relatorios.
+## 5. Retrieve related resources
+
+ObrasGov resources can be related through `id_projeto_investimento`.
+After selecting a project, use its identifier to retrieve physical
+execution, contracts, commitments, status history, and feasibility
+studies.
 
 ``` r
 
-obter_data_atualizacao()
+project_id <- projects_pe$id_projeto_investimento[[1]]
+
+physical_execution <- get_physical_execution(
+  id_projeto_investimento = project_id
+)
+
+contracts <- get_contracts(
+  id_projeto_investimento = project_id
+)
+
+commitments <- get_commitments(
+  id_projeto_investimento = project_id
+)
+
+status_history <- get_status_history(
+  id_projeto_investimento = project_id
+)
 ```
 
-## Configuracao
+Filtering related endpoints by project identifier avoids downloading
+large tables and makes the relationship explicit in the analysis code.
 
-O pacote nao exige autenticacao. Tres opcoes permitem adaptar o
-transporte sem alterar cada chamada:
+## 6. Record the source update timestamp
+
+The API reports the time of its most recent data load. Store this value
+with the query results to identify the temporal version of the source.
+
+``` r
+
+source_updated_at <- get_last_update()
+source_updated_at
+```
+
+## Portuguese aliases
+
+The original Portuguese function names remain available as compatibility
+aliases. Paginated aliases retain their original pagination argument
+names.
+
+``` r
+
+projetos_pe <- obter_projetos(
+  uf_principal = "PE",
+  tamanho_da_pagina = 25,
+  todas_paginas = FALSE
+)
+```
+
+New code should use
+[`get_projects()`](https://strategicprojects.github.io/obrasgov/reference/get_projects.md),
+`page_size`, and `all_pages`.
+
+## Client configuration
+
+The API does not require authentication. Three options customize
+transport without changing every function call:
 
 ``` r
 
 options(
   obrasgov.base_url = "https://api-publica.obrasgov.gestao.gov.br/obras",
   obrasgov.timeout = 30,
-  obrasgov.user_agent = "meu-projeto/1.0 (contato@example.org)"
+  obrasgov.user_agent = "my-project/1.0 (contact@example.org)"
 )
 ```
 
-Por padrao, o cliente solicita HTTP/2 sobre TLS, repete falhas
-transitorias e limita o acesso a 60 requisicoes por minuto.
+By default, the client requests HTTP/2 over TLS, retries transient
+failures, and limits access to 60 requests per minute.
+
+## Next steps
+
+- Read
+  [`vignette("pagination-and-nested-data")`](https://strategicprojects.github.io/obrasgov/articles/pagination-and-nested-data.md)
+  to collect multiple pages and normalize list-columns.
+- Read
+  [`vignette("end-to-end-workflow")`](https://strategicprojects.github.io/obrasgov/articles/end-to-end-workflow.md)
+  to build a reproducible dataset from multiple ObrasGov resources.

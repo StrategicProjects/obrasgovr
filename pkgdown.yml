@@ -2,9 +2,10 @@ pandoc: 3.8.3
 pkgdown: 2.2.1
 pkgdown_sha: ~
 articles:
+  end-to-end-workflow: end-to-end-workflow.html
   obrasgov: obrasgov.html
-  paginacao-e-dados-aninhados: paginacao-e-dados-aninhados.html
-last_built: 2026-07-15T18:58Z
+  pagination-and-nested-data: pagination-and-nested-data.html
+last_built: 2026-07-15T20:45Z
 urls:
   reference: https://strategicprojects.github.io/obrasgov/reference
   article: https://strategicprojects.github.io/obrasgov/articles

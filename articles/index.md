@@ -1,8 +1,10 @@
 # Articles
 
-### Guias
+### Guides
 
-- [Introducao ao
+- [Introduction to
   obrasgov](https://strategicprojects.github.io/obrasgov/articles/obrasgov.md):
-- [Paginacao e dados
-  aninhados](https://strategicprojects.github.io/obrasgov/articles/paginacao-e-dados-aninhados.md):
+- [An end-to-end ObrasGov
+  workflow](https://strategicprojects.github.io/obrasgov/articles/end-to-end-workflow.md):
+- [Pagination and nested
+  data](https://strategicprojects.github.io/obrasgov/articles/pagination-and-nested-data.md):

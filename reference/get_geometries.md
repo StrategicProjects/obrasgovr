@@ -1,0 +1,82 @@
+# Retrieve geometries
+
+Retrieve geometries
+
+## Usage
+
+``` r
+get_geometries(
+  ...,
+  page = 1L,
+  page_size = 50L,
+  all_pages = FALSE,
+  page_limit = Inf,
+  base_url = .obrasgov_base_url()
+)
+
+obter_geometrias(
+  ...,
+  pagina = 1L,
+  tamanho_da_pagina = 50L,
+  todas_paginas = FALSE,
+  limite_paginas = Inf,
+  base_url = .obrasgov_base_url()
+)
+```
+
+## Arguments
+
+- ...:
+
+  Named filters. See `list_filters("geometries")`.
+
+- page:
+
+  First page to retrieve, starting at 1.
+
+- page_size:
+
+  Number of records per page, between 1 and 200.
+
+- all_pages:
+
+  If `TRUE`, retrieves successive pages starting at `page`.
+
+- page_limit:
+
+  Maximum number of pages to retrieve when `all_pages` is `TRUE`. Use
+  `Inf` to retrieve every available page.
+
+- base_url:
+
+  HTTPS base URL. By default, uses the `obrasgov.base_url` option or the
+  official API environment.
+
+- pagina, tamanho_da_pagina, todas_paginas, limite_paginas:
+
+  Portuguese aliases for `page`, `page_size`, `all_pages`, and
+  `page_limit`, respectively. These arguments are available only in the
+  Portuguese function alias.
+
+## Value
+
+A tibble containing geometries and territorial identifiers.
+
+## See also
+
+Other API resources:
+[`get_commitments()`](https://strategicprojects.github.io/obrasgov/reference/get_commitments.md),
+[`get_contracts()`](https://strategicprojects.github.io/obrasgov/reference/get_contracts.md),
+[`get_feasibility_studies()`](https://strategicprojects.github.io/obrasgov/reference/get_feasibility_studies.md),
+[`get_last_update()`](https://strategicprojects.github.io/obrasgov/reference/get_last_update.md),
+[`get_physical_execution()`](https://strategicprojects.github.io/obrasgov/reference/get_physical_execution.md),
+[`get_projects()`](https://strategicprojects.github.io/obrasgov/reference/get_projects.md),
+[`get_status_history()`](https://strategicprojects.github.io/obrasgov/reference/get_status_history.md)
+
+## Examples
+
+``` r
+if (interactive()) {
+  get_geometries(sg_uf = "PE", page_size = 10)
+}
+```
