@@ -1,8 +1,8 @@
 ---
-title: "Introduction to obrasgov"
+title: "Introduction to obrasgovr"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Introduction to obrasgov}
+  %\VignetteIndexEntry{Introduction to obrasgovr}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -11,7 +11,7 @@ vignette: >
 knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
 ```
 
-`obrasgov` provides an R interface to the Brazilian federal government's
+`obrasgovr` provides an R interface to the Brazilian federal government's
 ObrasGov Open Data API. It validates filters locally, handles HTTP failures,
 collects paginated results, and returns tibbles with predictable types.
 
@@ -19,7 +19,7 @@ This vignette walks through the usual sequence: discover a resource, inspect
 its filters, make a small query, inspect the result, and retrieve related data.
 
 ```{r setup}
-library(obrasgov)
+library(obrasgovr)
 ```
 
 ## 1. Discover available resources
@@ -159,9 +159,9 @@ without changing every function call:
 
 ```{r options, eval = FALSE}
 options(
-  obrasgov.base_url = "https://api-publica.obrasgov.gestao.gov.br/obras",
-  obrasgov.timeout = 30,
-  obrasgov.user_agent = "my-project/1.0 (contact@example.org)"
+  obrasgovr.base_url = "https://api-publica.obrasgov.gestao.gov.br/obras",
+  obrasgovr.timeout = 30,
+  obrasgovr.user_agent = "my-project/1.0 (contact@example.org)"
 )
 ```
 

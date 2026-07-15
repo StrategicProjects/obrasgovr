@@ -5,12 +5,12 @@
 \alias{obter_data_atualizacao}
 \title{Retrieve the data update timestamp}
 \usage{
-get_last_update(base_url = .obrasgov_base_url())
+get_last_update(base_url = .obrasgovr_base_url())
 
-obter_data_atualizacao(base_url = .obrasgov_base_url())
+obter_data_atualizacao(base_url = .obrasgovr_base_url())
 }
 \arguments{
-\item{base_url}{HTTPS base URL. By default, uses the \code{obrasgov.base_url}
+\item{base_url}{HTTPS base URL. By default, uses the \code{obrasgovr.base_url}
 option or the official API environment.}
 }
 \value{

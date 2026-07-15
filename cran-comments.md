@@ -10,7 +10,7 @@ It does not concern package code or documentation.
 
 ## Submission
 
-This is the first CRAN submission of `obrasgov`.
+This is the first CRAN submission of `obrasgovr`.
 
 The package accesses a public Brazilian government API. Examples and vignettes
 do not require network access during checks. Network behavior is covered by

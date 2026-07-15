@@ -1,4 +1,4 @@
-url: https://strategicprojects.github.io/obrasgov/
+url: https://strategicprojects.github.io/obrasgovr/
 
 template:
   bootstrap: 5
@@ -12,7 +12,7 @@ template:
 lang: en
 
 home:
-  title: obrasgov | Brazilian public infrastructure data in R
+  title: obrasgovr | Brazilian public infrastructure data in R
   description: >
     R interface to projects, physical execution, contracts, commitments, and
     geometries from the ObrasGov Open Data API.
@@ -24,7 +24,7 @@ navbar:
   components:
     intro:
       text: Get started
-      href: articles/obrasgov.html
+      href: articles/obrasgovr.html
     reference:
       text: Reference
       href: reference/index.html
@@ -41,7 +41,7 @@ navbar:
     github:
       icon: fab fa-github
       aria-label: GitHub
-      href: https://github.com/StrategicProjects/obrasgov
+      href: https://github.com/StrategicProjects/obrasgovr
 
 reference:
 - title: Queries
@@ -78,7 +78,7 @@ reference:
 articles:
 - title: Guides
   contents:
-  - obrasgov
+  - obrasgovr
   - end-to-end-workflow
   - pagination-and-nested-data
 

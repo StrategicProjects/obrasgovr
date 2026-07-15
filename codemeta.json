@@ -1,12 +1,12 @@
 {
   "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
   "@type": "SoftwareSourceCode",
-  "identifier": "obrasgov",
+  "identifier": "obrasgovr",
   "description": "Provides a modern interface to the Brazilian federal government's 'ObrasGov' open data application programming interface (<https://api-publica.obrasgov.gestao.gov.br>). Retrieves data about public infrastructure projects, physical execution, contracts, commitments, geometries, feasibility studies, and project status histories. Results are returned as tidy tibbles with typed date columns, preserved nested relationships, pagination metadata, and optional multi-page collection.",
-  "name": "obrasgov: Access the 'ObrasGov' Open Data API",
-  "relatedLink": ["https://strategicprojects.github.io/obrasgov/", "https://api-publica.obrasgov.gestao.gov.br/obras/docs"],
-  "codeRepository": "https://github.com/StrategicProjects/obrasgov",
-  "issueTracker": "https://github.com/StrategicProjects/obrasgov/issues",
+  "name": "obrasgovr: Access the 'ObrasGov' Open Data API",
+  "relatedLink": ["https://strategicprojects.github.io/obrasgovr/", "https://api-publica.obrasgov.gestao.gov.br/obras/docs"],
+  "codeRepository": "https://github.com/StrategicProjects/obrasgovr",
+  "issueTracker": "https://github.com/StrategicProjects/obrasgovr/issues",
   "license": "https://spdx.org/licenses/MIT",
   "version": "0.1.0",
   "programmingLanguage": {
@@ -148,12 +148,12 @@
           "familyName": "Azevedo"
         }
       ],
-      "name": "obrasgov: Access the ObrasGov Open Data API",
+      "name": "obrasgovr: Access the ObrasGov Open Data API",
       "url": "https://api-publica.obrasgov.gestao.gov.br/obras/docs",
       "description": "R package version 0.1.0"
     }
   ],
-  "releaseNotes": "https://github.com/StrategicProjects/obrasgov/blob/main/NEWS.md",
-  "contIntegration": ["https://github.com/StrategicProjects/obrasgov/actions/workflows/R-CMD-check.yaml", "https://app.codecov.io/gh/StrategicProjects/obrasgov"],
+  "releaseNotes": "https://github.com/StrategicProjects/obrasgovr/blob/main/NEWS.md",
+  "contIntegration": ["https://github.com/StrategicProjects/obrasgovr/actions/workflows/R-CMD-check.yaml", "https://app.codecov.io/gh/StrategicProjects/obrasgovr"],
   "developmentStatus": ["https://www.repostatus.org/#active", "https://lifecycle.r-lib.org/articles/stages.html#experimental"]
 }

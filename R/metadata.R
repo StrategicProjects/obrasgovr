@@ -1,4 +1,4 @@
-.obrasgov_resources <- list(
+.obrasgovr_resources <- list(
   projects = list(
     endpoint = "projeto-investimento",
     function_name = "get_projects",
@@ -152,7 +152,7 @@
   )
 )
 
-.obrasgov_choices <- list(
+.obrasgovr_choices <- list(
   projeto_estruturante = c("N\u00c3O", "SIM"),
   situacao = c(
     "Cadastrada", "Cancelada", "Conclu\u00edda", "Em execu\u00e7\u00e3o",
@@ -185,12 +185,12 @@
 #' @examples
 #' list_resources()
 list_resources <- function() {
-  resources <- names(.obrasgov_resources)
+  resources <- names(.obrasgovr_resources)
 
   tibble::tibble(
     resource = resources,
-    function_name = purrr::map_chr(.obrasgov_resources, "function_name"),
-    endpoint = purrr::map_chr(.obrasgov_resources, "endpoint"),
+    function_name = purrr::map_chr(.obrasgovr_resources, "function_name"),
+    endpoint = purrr::map_chr(.obrasgovr_resources, "endpoint"),
     paginated = resources != "last_update"
   )
 }
@@ -218,13 +218,13 @@ obrasgov_recursos <- list_resources
 #' list_filters("projects")
 list_filters <- function(resource) {
   resource <- .match_resource(resource)
-  filters <- .obrasgov_resources[[resource]]$filters
+  filters <- .obrasgovr_resources[[resource]]$filters
 
   tibble::tibble(
     filter = names(filters),
     type = unname(filters),
     allowed_values = purrr::map(names(filters), function(filter) {
-      .obrasgov_choices[[filter]] %||% character()
+      .obrasgovr_choices[[filter]] %||% character()
     })
   )
 }
@@ -241,7 +241,7 @@ obrasgov_filtros <- function(recurso) {
   }
 
   resource <- .portuguese_resources[[resource]] %||% resource
-  choices <- names(.obrasgov_resources)
+  choices <- names(.obrasgovr_resources)
 
   if (!resource %in% choices) {
     cli::cli_abort(c(

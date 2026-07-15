@@ -1,24 +1,24 @@
-.obrasgov_default_url <- "https://api-publica.obrasgov.gestao.gov.br/obras"
+.obrasgovr_default_url <- "https://api-publica.obrasgov.gestao.gov.br/obras"
 
-.obrasgov_base_url <- function() {
-  getOption("obrasgov.base_url", .obrasgov_default_url)
+.obrasgovr_base_url <- function() {
+  getOption("obrasgovr.base_url", .obrasgovr_default_url)
 }
 
-.obrasgov_timeout <- function() {
-  getOption("obrasgov.timeout", 30)
+.obrasgovr_timeout <- function() {
+  getOption("obrasgovr.timeout", 30)
 }
 
-.obrasgov_user_agent <- function() {
+.obrasgovr_user_agent <- function() {
   getOption(
-    "obrasgov.user_agent",
+    "obrasgovr.user_agent",
     paste0(
-      "obrasgov/0.1.0 ",
+      "obrasgovr/0.1.0 ",
       "(https://api-publica.obrasgov.gestao.gov.br/obras/docs)"
     )
   )
 }
 
-.obrasgov_request <- function(endpoint, query = list(), base_url) {
+.obrasgovr_request <- function(endpoint, query = list(), base_url) {
   .check_base_url(base_url)
 
   base_url <- sub("/+$", "", base_url)
@@ -27,13 +27,13 @@
   req <- httr2::request(base_url) |>
     httr2::req_url_path_append(endpoint) |>
     httr2::req_headers(Accept = "application/json") |>
-    httr2::req_user_agent(.obrasgov_user_agent()) |>
+    httr2::req_user_agent(.obrasgovr_user_agent()) |>
     httr2::req_options(http_version = 4L) |>
-    httr2::req_timeout(seconds = .obrasgov_timeout()) |>
+    httr2::req_timeout(seconds = .obrasgovr_timeout()) |>
     httr2::req_throttle(
       rate = 60,
       fill_time_s = 60,
-      realm = "obrasgov"
+      realm = "obrasgovr"
     ) |>
     httr2::req_retry(max_tries = 4, retry_on_failure = TRUE) |>
     httr2::req_error(is_error = function(resp) FALSE)
@@ -45,8 +45,8 @@
   req
 }
 
-.obrasgov_perform <- function(endpoint, query = list(), base_url) {
-  response <- .obrasgov_request(endpoint, query, base_url) |>
+.obrasgovr_perform <- function(endpoint, query = list(), base_url) {
+  response <- .obrasgovr_request(endpoint, query, base_url) |>
     httr2::req_perform()
 
   .abort_for_status(response)
@@ -56,7 +56,7 @@
     error = function(error) {
       cli::cli_abort(
         "The ObrasGov API returned invalid JSON.",
-        class = "obrasgov_response_error",
+        class = "obrasgovr_response_error",
         parent = error
       )
     }
@@ -82,7 +82,7 @@
 
   cli::cli_abort(
     message,
-    class = c("obrasgov_http_error", paste0("obrasgov_http_", status))
+    class = c("obrasgovr_http_error", paste0("obrasgovr_http_", status))
   )
 }
 
@@ -113,7 +113,7 @@
   ""
 }
 
-.obrasgov_get_paginated <- function(
+.obrasgovr_get_paginated <- function(
     resource,
     filters,
     page,
@@ -122,7 +122,7 @@
     page_limit,
     base_url) {
   resource <- .match_resource(resource)
-  metadata <- .obrasgov_resources[[resource]]
+  metadata <- .obrasgovr_resources[[resource]]
 
   filters <- .validate_filters(filters, metadata$filters)
   .check_pagination(
@@ -132,7 +132,7 @@
     page_limit
   )
 
-  bodies <- .obrasgov_collect_pages(
+  bodies <- .obrasgovr_collect_pages(
     metadata,
     filters,
     page,
@@ -156,7 +156,7 @@
   )
 }
 
-.obrasgov_collect_pages <- function(
+.obrasgovr_collect_pages <- function(
     metadata,
     filters,
     page,
@@ -164,7 +164,7 @@
     all_pages,
     page_limit,
     base_url) {
-  first <- .obrasgov_fetch_page(
+  first <- .obrasgovr_fetch_page(
     metadata$endpoint,
     filters,
     page,
@@ -185,7 +185,7 @@
 
   pages <- seq.int(page + 1L, last_page)
   remaining <- purrr::map(pages, function(page) {
-    .obrasgov_fetch_page(
+    .obrasgovr_fetch_page(
       metadata$endpoint,
       filters,
       page,
@@ -205,7 +205,7 @@
     page,
     page_size) {
   first <- bodies[[1L]]
-  attr(result, "obrasgov_metadata") <- list(
+  attr(result, "obrasgovr_metadata") <- list(
     resource = resource,
     endpoint = metadata$endpoint,
     total_pages = as.integer(.or_default(first$total_pages, 0L)),
@@ -219,7 +219,7 @@
   result
 }
 
-.obrasgov_fetch_page <- function(
+.obrasgovr_fetch_page <- function(
     endpoint,
     filters,
     page,
@@ -232,12 +232,12 @@
       tamanho_da_pagina = as.integer(page_size)
     )
   )
-  body <- .obrasgov_perform(endpoint, query, base_url)
+  body <- .obrasgovr_perform(endpoint, query, base_url)
 
   if (!is.list(body) || is.null(body$data) || !is.list(body$data)) {
     cli::cli_abort(
       "The paginated API response has an unexpected format.",
-      class = "obrasgov_response_error"
+      class = "obrasgovr_response_error"
     )
   }
 
@@ -274,7 +274,7 @@
   if (!is.list(record) || is.null(names(record))) {
     cli::cli_abort(
       "An API record has an unexpected format.",
-      class = "obrasgov_response_error"
+      class = "obrasgovr_response_error"
     )
   }
 
@@ -381,7 +381,7 @@
   ) {
     cli::cli_abort(
       "{.arg base_url} must be a single HTTPS URL.",
-      class = "obrasgov_url_error"
+      class = "obrasgovr_url_error"
     )
   }
   invisible(NULL)
@@ -397,7 +397,7 @@
 #' @examples
 #' result_metadata(tibble::tibble())
 result_metadata <- function(x) {
-  attr(x, "obrasgov_metadata", exact = TRUE)
+  attr(x, "obrasgovr_metadata", exact = TRUE)
 }
 
 #' @rdname result_metadata

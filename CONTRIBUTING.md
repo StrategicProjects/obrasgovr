@@ -1,4 +1,4 @@
-# Contributing to obrasgov
+# Contributing to obrasgovr
 
 Thank you for your interest in contributing.
 
@@ -24,7 +24,7 @@ Integration tests against the official API are optional and can be enabled
 with:
 
 ```sh
-OBRASGOV_LIVE_TESTS=true R -q -e 'devtools::test()'
+OBRASGOVR_LIVE_TESTS=true R -q -e 'devtools::test()'
 ```
 
 By participating, you agree to follow the [Code of Conduct](CODE_OF_CONDUCT.md).

@@ -11,7 +11,7 @@
 #' @param all_pages If `TRUE`, retrieves successive pages starting at `page`.
 #' @param page_limit Maximum number of pages to retrieve when `all_pages` is
 #'   `TRUE`. Use `Inf` to retrieve every available page.
-#' @param base_url HTTPS base URL. By default, uses the `obrasgov.base_url`
+#' @param base_url HTTPS base URL. By default, uses the `obrasgovr.base_url`
 #'   option or the official API environment.
 #' @param pagina,tamanho_da_pagina,todas_paginas,limite_paginas Portuguese
 #'   aliases for `page`, `page_size`, `all_pages`, and `page_limit`,
@@ -32,7 +32,7 @@ get_projects <- function(
     page_size = 50L,
     all_pages = FALSE,
     page_limit = Inf,
-    base_url = .obrasgov_base_url()) {
+    base_url = .obrasgovr_base_url()) {
   .endpoint_query(
     "projects",
     rlang::list2(...),
@@ -52,7 +52,7 @@ obter_projetos <- function(
     tamanho_da_pagina = 50L,
     todas_paginas = FALSE,
     limite_paginas = Inf,
-    base_url = .obrasgov_base_url()) {
+    base_url = .obrasgovr_base_url()) {
   get_projects(
     ...,
     page = pagina,
@@ -82,7 +82,7 @@ get_commitments <- function(
     page_size = 50L,
     all_pages = FALSE,
     page_limit = Inf,
-    base_url = .obrasgov_base_url()) {
+    base_url = .obrasgovr_base_url()) {
   .endpoint_query(
     "commitments",
     rlang::list2(...),
@@ -102,7 +102,7 @@ obter_empenhos <- function(
     tamanho_da_pagina = 50L,
     todas_paginas = FALSE,
     limite_paginas = Inf,
-    base_url = .obrasgov_base_url()) {
+    base_url = .obrasgovr_base_url()) {
   get_commitments(
     ...,
     page = pagina,
@@ -131,7 +131,7 @@ get_physical_execution <- function(
     page_size = 50L,
     all_pages = FALSE,
     page_limit = Inf,
-    base_url = .obrasgov_base_url()) {
+    base_url = .obrasgovr_base_url()) {
   .endpoint_query(
     "physical_execution",
     rlang::list2(...),
@@ -151,7 +151,7 @@ obter_execucao_fisica <- function(
     tamanho_da_pagina = 50L,
     todas_paginas = FALSE,
     limite_paginas = Inf,
-    base_url = .obrasgov_base_url()) {
+    base_url = .obrasgovr_base_url()) {
   get_physical_execution(
     ...,
     page = pagina,
@@ -180,7 +180,7 @@ get_contracts <- function(
     page_size = 50L,
     all_pages = FALSE,
     page_limit = Inf,
-    base_url = .obrasgov_base_url()) {
+    base_url = .obrasgovr_base_url()) {
   .endpoint_query(
     "contracts",
     rlang::list2(...),
@@ -200,7 +200,7 @@ obter_contratos <- function(
     tamanho_da_pagina = 50L,
     todas_paginas = FALSE,
     limite_paginas = Inf,
-    base_url = .obrasgov_base_url()) {
+    base_url = .obrasgovr_base_url()) {
   get_contracts(
     ...,
     page = pagina,
@@ -229,7 +229,7 @@ get_geometries <- function(
     page_size = 50L,
     all_pages = FALSE,
     page_limit = Inf,
-    base_url = .obrasgov_base_url()) {
+    base_url = .obrasgovr_base_url()) {
   .endpoint_query(
     "geometries",
     rlang::list2(...),
@@ -249,7 +249,7 @@ obter_geometrias <- function(
     tamanho_da_pagina = 50L,
     todas_paginas = FALSE,
     limite_paginas = Inf,
-    base_url = .obrasgov_base_url()) {
+    base_url = .obrasgovr_base_url()) {
   get_geometries(
     ...,
     page = pagina,
@@ -281,7 +281,7 @@ get_status_history <- function(
     page_size = 50L,
     all_pages = FALSE,
     page_limit = Inf,
-    base_url = .obrasgov_base_url()) {
+    base_url = .obrasgovr_base_url()) {
   .endpoint_query(
     "status_history",
     rlang::list2(...),
@@ -301,7 +301,7 @@ obter_historico_situacao <- function(
     tamanho_da_pagina = 50L,
     todas_paginas = FALSE,
     limite_paginas = Inf,
-    base_url = .obrasgov_base_url()) {
+    base_url = .obrasgovr_base_url()) {
   get_status_history(
     ...,
     page = pagina,
@@ -330,7 +330,7 @@ get_feasibility_studies <- function(
     page_size = 50L,
     all_pages = FALSE,
     page_limit = Inf,
-    base_url = .obrasgov_base_url()) {
+    base_url = .obrasgovr_base_url()) {
   .endpoint_query(
     "feasibility_studies",
     rlang::list2(...),
@@ -350,7 +350,7 @@ obter_estudos_viabilidade <- function(
     tamanho_da_pagina = 50L,
     todas_paginas = FALSE,
     limite_paginas = Inf,
-    base_url = .obrasgov_base_url()) {
+    base_url = .obrasgovr_base_url()) {
   get_feasibility_studies(
     ...,
     page = pagina,
@@ -363,7 +363,7 @@ obter_estudos_viabilidade <- function(
 
 #' Retrieve the data update timestamp
 #'
-#' @param base_url HTTPS base URL. By default, uses the `obrasgov.base_url`
+#' @param base_url HTTPS base URL. By default, uses the `obrasgovr.base_url`
 #'   option or the official API environment.
 #'
 #' @return A `POSIXct` value in the UTC time zone.
@@ -373,14 +373,14 @@ obter_estudos_viabilidade <- function(
 #' if (interactive()) {
 #'   get_last_update()
 #' }
-get_last_update <- function(base_url = .obrasgov_base_url()) {
-  body <- .obrasgov_perform("data-atualizacao", base_url = base_url)
+get_last_update <- function(base_url = .obrasgovr_base_url()) {
+  body <- .obrasgovr_perform("data-atualizacao", base_url = base_url)
   value <- body$data_ultima_atualizacao
 
   if (!is.character(value) || length(value) != 1L) {
     cli::cli_abort(
       "The data update response has an unexpected format.",
-      class = "obrasgov_response_error"
+      class = "obrasgovr_response_error"
     )
   }
 
@@ -399,7 +399,7 @@ obter_data_atualizacao <- get_last_update
     all_pages,
     page_limit,
     base_url) {
-  .obrasgov_get_paginated(
+  .obrasgovr_get_paginated(
     resource = resource,
     filters = filters,
     page = page,

@@ -8,7 +8,7 @@ test_that("HTTP errors expose API validation messages", {
   expect_error(
     get_projects(base_url = "https://example.test/obras"),
     "Valor invalido",
-    class = "obrasgov_http_error"
+    class = "obrasgovr_http_error"
   )
 })
 
@@ -22,7 +22,7 @@ test_that("malformed paginated responses fail clearly", {
   expect_error(
     get_projects(base_url = "https://example.test/obras"),
     "unexpected format",
-    class = "obrasgov_response_error"
+    class = "obrasgovr_response_error"
   )
 })
 
@@ -33,7 +33,7 @@ test_that("malformed records fail clearly", {
   expect_error(
     get_projects(base_url = "https://example.test/obras"),
     "record.*unexpected format",
-    class = "obrasgov_response_error"
+    class = "obrasgovr_response_error"
   )
 })
 
@@ -47,6 +47,6 @@ test_that("malformed update timestamps fail clearly", {
   expect_error(
     get_last_update(base_url = "https://example.test/obras"),
     "unexpected format",
-    class = "obrasgov_response_error"
+    class = "obrasgovr_response_error"
   )
 })

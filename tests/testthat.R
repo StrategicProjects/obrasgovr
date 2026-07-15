@@ -1,4 +1,4 @@
 library(testthat)
-library(obrasgov)
+library(obrasgovr)
 
-test_check("obrasgov")
+test_check("obrasgovr")

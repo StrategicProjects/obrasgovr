@@ -1,4 +1,4 @@
-Package: obrasgov
+Package: obrasgovr
 Title: Access the 'ObrasGov' Open Data API
 Version: 0.1.0
 Authors@R: c(
@@ -17,10 +17,10 @@ Description: Provides a modern interface to the Brazilian federal
     preserved nested relationships, pagination metadata, and optional
     multi-page collection.
 License: MIT + file LICENSE
-URL: https://github.com/StrategicProjects/obrasgov,
-    https://strategicprojects.github.io/obrasgov/,
+URL: https://github.com/StrategicProjects/obrasgovr,
+    https://strategicprojects.github.io/obrasgovr/,
     https://api-publica.obrasgov.gestao.gov.br/obras/docs
-BugReports: https://github.com/StrategicProjects/obrasgov/issues
+BugReports: https://github.com/StrategicProjects/obrasgovr/issues
 Depends:
     R (>= 4.1.0)
 Imports:

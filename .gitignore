@@ -49,6 +49,6 @@ po/*~
 rsconnect/
 .Rproj.user
 .DS_Store
-obrasgov.Rcheck/
-obrasgov_*.tar.gz
+obrasgovr.Rcheck/
+obrasgovr_*.tar.gz
 docs/

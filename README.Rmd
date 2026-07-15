@@ -15,27 +15,27 @@ knitr::opts_chunk$set(
 )
 ```
 
-# obrasgov
+# obrasgovr
 
 <!-- badges: start -->
-[![R-CMD-check](https://github.com/StrategicProjects/obrasgov/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/StrategicProjects/obrasgov/actions/workflows/R-CMD-check.yaml)
-[![Codecov test coverage](https://codecov.io/gh/StrategicProjects/obrasgov/branch/main/graph/badge.svg)](https://app.codecov.io/gh/StrategicProjects/obrasgov)
-[![pkgdown](https://github.com/StrategicProjects/obrasgov/actions/workflows/pkgdown.yaml/badge.svg)](https://strategicprojects.github.io/obrasgov/)
+[![R-CMD-check](https://github.com/StrategicProjects/obrasgovr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/StrategicProjects/obrasgovr/actions/workflows/R-CMD-check.yaml)
+[![Codecov test coverage](https://codecov.io/gh/StrategicProjects/obrasgovr/branch/main/graph/badge.svg)](https://app.codecov.io/gh/StrategicProjects/obrasgovr)
+[![pkgdown](https://github.com/StrategicProjects/obrasgovr/actions/workflows/pkgdown.yaml/badge.svg)](https://strategicprojects.github.io/obrasgovr/)
 [![Project Status: Active](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 <!-- badges: end -->
 
-**obrasgov** provides a modern R interface to the [ObrasGov Open Data
+**obrasgovr** provides a modern R interface to the [ObrasGov Open Data
 API](https://api-publica.obrasgov.gestao.gov.br/obras/docs), maintained by the
 Brazilian federal government. It retrieves data about infrastructure projects,
 physical execution, budget commitments, contracts, geometries, feasibility
 studies, and the status histories of suspended or cancelled projects.
 
-## Why use obrasgov?
+## Why use obrasgovr?
 
 The official API is extensive and paginated. Using it directly requires
 building URLs, handling HTTP errors, joining pages, and transforming nested
-JSON. **obrasgov** handles those tasks and returns analysis-ready tibbles
+JSON. **obrasgovr** handles those tasks and returns analysis-ready tibbles
 without discarding one-to-many relationships. It is designed for researchers,
 oversight bodies, public managers, data journalists, and civil society
 organizations.
@@ -60,13 +60,13 @@ version with:
 
 ```{r installation, eval = FALSE}
 install.packages("pak")
-pak::pak("StrategicProjects/obrasgov")
+pak::pak("StrategicProjects/obrasgovr")
 ```
 
 ## Usage
 
 ```{r basic-example, eval = FALSE}
-library(obrasgov)
+library(obrasgovr)
 
 projects_pe <- get_projects(
   uf_principal = "PE",
@@ -105,7 +105,7 @@ projetos_pe <- obter_projetos(
 )
 ```
 
-See `vignette("obrasgov")` for a complete introduction,
+See `vignette("obrasgovr")` for a complete introduction,
 `vignette("end-to-end-workflow")` for a reproducible multi-resource analysis,
 and `vignette("pagination-and-nested-data")` for pagination and list-columns.
 
@@ -122,4 +122,4 @@ Contributions are welcome. Read [CONTRIBUTING.md](CONTRIBUTING.md) and the
 
 ## License
 
-MIT © obrasgov authors.
+MIT © obrasgovr authors.

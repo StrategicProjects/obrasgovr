@@ -1,7 +1,7 @@
-#' obrasgov: Access ObrasGov open data
+#' obrasgovr: Access ObrasGov open data
 #'
-#' `obrasgov` provides a modern, typed interface to the ObrasGov open data API.
-#' Each API resource is represented by a function that returns a
+#' `obrasgovr` provides a modern, typed interface to the ObrasGov open data
+#' API. Each API resource is represented by a function that returns a
 #' [tibble::tibble()], preserving nested relationships in list-columns.
 #'
 #' Requests use HTTP/2 over TLS when supported by `libcurl`, with automatic
@@ -9,9 +9,9 @@
 #' does not require authentication.
 #'
 #' @section Options:
-#' - `obrasgov.base_url`: alternative API base URL.
-#' - `obrasgov.timeout`: timeout for each request, in seconds.
-#' - `obrasgov.user_agent`: alternative HTTP user agent.
+#' - `obrasgovr.base_url`: alternative API base URL.
+#' - `obrasgovr.timeout`: timeout for each request, in seconds.
+#' - `obrasgovr.user_agent`: alternative HTTP user agent.
 #'
 #' @seealso
 #' [Official API documentation][api-docs]

@@ -11,7 +11,7 @@ get_geometries(
   page_size = 50L,
   all_pages = FALSE,
   page_limit = Inf,
-  base_url = .obrasgov_base_url()
+  base_url = .obrasgovr_base_url()
 )
 
 obter_geometrias(
@@ -20,7 +20,7 @@ obter_geometrias(
   tamanho_da_pagina = 50L,
   todas_paginas = FALSE,
   limite_paginas = Inf,
-  base_url = .obrasgov_base_url()
+  base_url = .obrasgovr_base_url()
 )
 }
 \arguments{
@@ -35,7 +35,7 @@ obter_geometrias(
 \item{page_limit}{Maximum number of pages to retrieve when \code{all_pages} is
 \code{TRUE}. Use \code{Inf} to retrieve every available page.}
 
-\item{base_url}{HTTPS base URL. By default, uses the \code{obrasgov.base_url}
+\item{base_url}{HTTPS base URL. By default, uses the \code{obrasgovr.base_url}
 option or the official API environment.}
 
 \item{pagina, tamanho_da_pagina, todas_paginas, limite_paginas}{Portuguese

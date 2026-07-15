@@ -1,24 +1,24 @@
 test_that("requests opt in to HTTP/2 over TLS", {
-  request <- obrasgov:::.obrasgov_request(
+  request <- obrasgovr:::.obrasgovr_request(
     "data-atualizacao",
     base_url = "https://example.test/obras"
   )
 
   expect_identical(request$url, "https://example.test/obras/data-atualizacao")
   expect_identical(request$options$http_version, 4L)
-  expect_match(request$options$useragent, "^obrasgov/")
-  expect_identical(request$policies$throttle_realm, "obrasgov")
+  expect_match(request$options$useragent, "^obrasgovr/")
+  expect_identical(request$policies$throttle_realm, "obrasgovr")
   expect_identical(request$policies$retry_max_tries, 4)
 })
 
 test_that("only HTTPS base URLs are accepted", {
   expect_error(
     get_last_update(base_url = "http://example.test"),
-    class = "obrasgov_url_error"
+    class = "obrasgovr_url_error"
   )
   expect_error(
     get_last_update(base_url = NA_character_),
-    class = "obrasgov_url_error"
+    class = "obrasgovr_url_error"
   )
 })
 

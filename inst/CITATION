@@ -1,6 +1,6 @@
 bibentry(
   bibtype = "Manual",
-  title = "obrasgov: Access the ObrasGov Open Data API",
+  title = "obrasgovr: Access the ObrasGov Open Data API",
   author = c(
     person("Andre", "Leite"),
     person("Felipe", "Ferreira"),
