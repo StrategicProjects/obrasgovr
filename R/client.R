@@ -31,7 +31,7 @@
     httr2::req_options(http_version = 4L) |>
     httr2::req_timeout(seconds = .obrasgovr_timeout()) |>
     httr2::req_throttle(
-      rate = 60,
+      capacity = 60,
       fill_time_s = 60,
       realm = "obrasgovr"
     ) |>
@@ -171,7 +171,7 @@
     page_size,
     base_url
   )
-  total_pages <- as.integer(.or_default(first$total_pages, 0L))
+  total_pages <- as.integer(first$total_pages %||% 0L)
   bodies <- list(first)
 
   if (!isTRUE(all_pages) || total_pages <= page) {
@@ -208,8 +208,8 @@
   attr(result, "obrasgovr_metadata") <- list(
     resource = resource,
     endpoint = metadata$endpoint,
-    total_pages = as.integer(.or_default(first$total_pages, 0L)),
-    total_items = as.integer(.or_default(first$total_items, 0L)),
+    total_pages = as.integer(first$total_pages %||% 0L),
+    total_items = as.integer(first$total_items %||% 0L),
     first_page = as.integer(page),
     pages_retrieved = length(bodies),
     page_size = as.integer(page_size),
@@ -377,7 +377,7 @@
     !is.character(base_url) ||
       length(base_url) != 1L ||
       is.na(base_url) ||
-      !grepl("^https://", base_url)
+      !startsWith(base_url, "https://")
   ) {
     cli::cli_abort(
       "{.arg base_url} must be a single HTTPS URL.",
@@ -403,7 +403,3 @@ result_metadata <- function(x) {
 #' @rdname result_metadata
 #' @export
 obrasgov_metadados <- result_metadata
-
-.or_default <- function(x, y) {
-  if (is.null(x)) y else x
-}

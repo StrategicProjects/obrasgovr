@@ -18,5 +18,6 @@
 #'
 #' [api-docs]: https://api-publica.obrasgov.gestao.gov.br/obras/docs
 #'
+#' @importFrom rlang %||%
 #' @keywords internal
 "_PACKAGE"
