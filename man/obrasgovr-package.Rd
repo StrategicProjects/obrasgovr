@@ -28,15 +28,15 @@ does not require authentication.
 \href{https://api-publica.obrasgov.gestao.gov.br/obras/docs}{Official API documentation}
 }
 \author{
-\strong{Maintainer}: Andre Leite \email{leite@castlab.org}
+\strong{Maintainer}: Andre Leite \email{leite@castlab.org} (\href{https://orcid.org/0000-0002-4718-9766}{ORCID})
 
 Authors:
 \itemize{
-  \item Andre Leite \email{leite@castlab.org}
-  \item Felipe Ferreira \email{felipe.ferreira@semobi.pe.gov.br}
-  \item Hugo Vasconcelos \email{hugo.vasconcelos@ufpe.br}
-  \item Diogo Bezerra \email{diogo.bezerra@ufpe.br}
-  \item Roger Azevedo \email{roger.azevedo@tpfe.com.br}
+  \item Andre Leite \email{leite@castlab.org} (\href{https://orcid.org/0000-0002-4718-9766}{ORCID})
+  \item Marcos Wasiliew \email{marcos.wasiliew@sepe.pe.gov.br}
+  \item Hugo Vasconcelos \email{hugo.vasconcelos@ufpe.br} (\href{https://orcid.org/0000-0001-6249-0920}{ORCID})
+  \item Carlos Amorim \email{carlos.agaf@ufpe.br} (\href{https://orcid.org/0000-0001-6315-8305}{ORCID})
+  \item Diogo Bezerra \email{diogo.bezerra@ufpe.br} (\href{https://orcid.org/0000-0002-1216-8674}{ORCID})
 }
 
 }

@@ -1,14 +1,20 @@
+year <- if (!is.null(meta$Packaged)) {
+  sub("-.*", "", meta$Packaged)
+} else {
+  format(Sys.Date(), "%Y")
+}
+
 bibentry(
   bibtype = "Manual",
   title = "obrasgovr: Access the ObrasGov Open Data API",
   author = c(
     person("Andre", "Leite"),
-    person("Felipe", "Ferreira"),
+    person("Marcos", "Wasiliew"),
     person("Hugo", "Vasconcelos"),
-    person("Diogo", "Bezerra"),
-    person("Roger", "Azevedo")
+    person("Carlos", "Amorim"),
+    person("Diogo", "Bezerra")
   ),
-  year = "2026",
-  note = "R package version 0.1.0",
+  year = year,
+  note = paste("R package version", meta$Version),
   url = "https://api-publica.obrasgov.gestao.gov.br/obras/docs"
 )

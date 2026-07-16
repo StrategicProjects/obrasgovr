@@ -20,31 +20,35 @@
       "@type": "Person",
       "givenName": "Andre",
       "familyName": "Leite",
-      "email": "leite@castlab.org"
+      "email": "leite@castlab.org",
+      "@id": "https://orcid.org/0000-0002-4718-9766"
     },
     {
       "@type": "Person",
-      "givenName": "Felipe",
-      "familyName": "Ferreira",
-      "email": "felipe.ferreira@semobi.pe.gov.br"
+      "givenName": "Marcos",
+      "familyName": "Wasiliew",
+      "email": "marcos.wasiliew@sepe.pe.gov.br"
     },
     {
       "@type": "Person",
       "givenName": "Hugo",
       "familyName": "Vasconcelos",
-      "email": "hugo.vasconcelos@ufpe.br"
+      "email": "hugo.vasconcelos@ufpe.br",
+      "@id": "https://orcid.org/0000-0001-6249-0920"
+    },
+    {
+      "@type": "Person",
+      "givenName": "Carlos",
+      "familyName": "Amorim",
+      "email": "carlos.agaf@ufpe.br",
+      "@id": "https://orcid.org/0000-0001-6315-8305"
     },
     {
       "@type": "Person",
       "givenName": "Diogo",
       "familyName": "Bezerra",
-      "email": "diogo.bezerra@ufpe.br"
-    },
-    {
-      "@type": "Person",
-      "givenName": "Roger",
-      "familyName": "Azevedo",
-      "email": "roger.azevedo@tpfe.com.br"
+      "email": "diogo.bezerra@ufpe.br",
+      "@id": "https://orcid.org/0000-0002-1216-8674"
     }
   ],
   "maintainer": [
@@ -52,30 +56,83 @@
       "@type": "Person",
       "givenName": "Andre",
       "familyName": "Leite",
-      "email": "leite@castlab.org"
+      "email": "leite@castlab.org",
+      "@id": "https://orcid.org/0000-0002-4718-9766"
     }
   ],
   "softwareSuggestions": [
     {
       "@type": "SoftwareApplication",
       "identifier": "covr",
-      "name": "covr"
+      "name": "covr",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=covr"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "dplyr",
+      "name": "dplyr",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=dplyr"
     },
     {
       "@type": "SoftwareApplication",
       "identifier": "knitr",
-      "name": "knitr"
+      "name": "knitr",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=knitr"
     },
     {
       "@type": "SoftwareApplication",
       "identifier": "rmarkdown",
-      "name": "rmarkdown"
+      "name": "rmarkdown",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=rmarkdown"
     },
     {
       "@type": "SoftwareApplication",
       "identifier": "testthat",
       "name": "testthat",
-      "version": ">= 3.2.0"
+      "version": ">= 3.2.0",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=testthat"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "tidyr",
+      "name": "tidyr",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=tidyr"
     }
   ],
   "softwareRequirements": {
@@ -88,35 +145,70 @@
     "2": {
       "@type": "SoftwareApplication",
       "identifier": "cli",
-      "name": "cli"
+      "name": "cli",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=cli"
     },
     "3": {
       "@type": "SoftwareApplication",
       "identifier": "httr2",
       "name": "httr2",
-      "version": ">= 1.2.0"
+      "version": ">= 1.2.0",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=httr2"
     },
     "4": {
       "@type": "SoftwareApplication",
       "identifier": "purrr",
       "name": "purrr",
-      "version": ">= 1.0.0"
+      "version": ">= 1.0.0",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=purrr"
     },
     "5": {
       "@type": "SoftwareApplication",
       "identifier": "rlang",
       "name": "rlang",
-      "version": ">= 1.1.0"
+      "version": ">= 1.1.0",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=rlang"
     },
     "6": {
       "@type": "SoftwareApplication",
       "identifier": "tibble",
       "name": "tibble",
-      "version": ">= 3.2.0"
+      "version": ">= 3.2.0",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=tibble"
     },
     "SystemRequirements": null
   },
-  "fileSize": "54.629KB",
+  "fileSize": "87.746KB",
   "citation": [
     {
       "@type": "SoftwareSourceCode",
@@ -129,8 +221,8 @@
         },
         {
           "@type": "Person",
-          "givenName": "Felipe",
-          "familyName": "Ferreira"
+          "givenName": "Marcos",
+          "familyName": "Wasiliew"
         },
         {
           "@type": "Person",
@@ -139,13 +231,13 @@
         },
         {
           "@type": "Person",
-          "givenName": "Diogo",
-          "familyName": "Bezerra"
+          "givenName": "Carlos",
+          "familyName": "Amorim"
         },
         {
           "@type": "Person",
-          "givenName": "Roger",
-          "familyName": "Azevedo"
+          "givenName": "Diogo",
+          "familyName": "Bezerra"
         }
       ],
       "name": "obrasgovr: Access the ObrasGov Open Data API",
@@ -154,6 +246,7 @@
     }
   ],
   "releaseNotes": "https://github.com/StrategicProjects/obrasgovr/blob/main/NEWS.md",
+  "readme": "https://github.com/StrategicProjects/obrasgovr/blob/main/README.md",
   "contIntegration": ["https://github.com/StrategicProjects/obrasgovr/actions/workflows/R-CMD-check.yaml", "https://app.codecov.io/gh/StrategicProjects/obrasgovr"],
   "developmentStatus": ["https://www.repostatus.org/#active", "https://lifecycle.r-lib.org/articles/stages.html#experimental"]
 }
