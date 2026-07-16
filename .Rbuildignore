@@ -4,6 +4,8 @@
 ^\.lintr$
 ^\.DS_Store$
 ^\.claude$
+^CLAUDE\.md$
+^CLAUDE\.local\.md$
 ^README\.Rmd$
 ^README\.html$
 ^LICENSE\.md$
@@ -16,3 +18,4 @@
 ^codemeta\.json$
 ^.*\.tar\.gz$
 ^.*\.Rcheck$
+^CRAN-SUBMISSION$

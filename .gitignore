@@ -42,6 +42,11 @@ vignettes/*.pdf
 # pkgdown site
 docs/
 
+# Claude Code: local agent context and settings, not part of the package
+CLAUDE.md
+CLAUDE.local.md
+.claude/
+
 # translation temp files
 po/*~
 
