@@ -89,3 +89,45 @@ test_that("JSON bodies that are not objects still report the HTTP status", {
     class = "obrasgovr_http_error"
   )
 })
+
+test_that("timestamps with trailing junk are rejected", {
+  # `strptime()` ignores trailing characters, so a truncated offset or plain
+  # junk would parse as a naive UTC timestamp.
+  for (value in c(
+    "2026-07-15T00:00:00-03",
+    "2026-07-15T00:00:00junk",
+    "2026-02-30T00:00:00"
+  )) {
+    httr2::local_mocked_responses(list(httr2::response_json(
+      status_code = 200L,
+      body = list(data_ultima_atualizacao = value)
+    )))
+
+    expect_error(
+      get_last_update(base_url = "https://example.test/obras"),
+      class = "obrasgovr_response_error"
+    )
+  }
+})
+
+test_that("well-formed timestamp shapes are accepted", {
+  expected <- c(
+    "2026-07-15T00:00:00" = "2026-07-15 00:00:00",
+    "2026-07-15T00:00:00Z" = "2026-07-15 00:00:00",
+    "2026-07-15T00:00:00-03:00" = "2026-07-15 03:00:00",
+    "2026-07-15T00:00:00-0300" = "2026-07-15 03:00:00"
+  )
+
+  for (value in names(expected)) {
+    httr2::local_mocked_responses(list(httr2::response_json(
+      status_code = 200L,
+      body = list(data_ultima_atualizacao = value)
+    )))
+
+    result <- get_last_update(base_url = "https://example.test/obras")
+    expect_identical(
+      format(result, "%Y-%m-%d %H:%M:%S", tz = "UTC"),
+      unname(expected[value])
+    )
+  }
+})

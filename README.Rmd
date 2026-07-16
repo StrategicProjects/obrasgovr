@@ -49,7 +49,8 @@ Key features include:
 
 - a consistent English `snake_case` interface, with Portuguese compatibility
   aliases;
-- HTTP/2 over TLS negotiation, retries, and a limit of 60 requests per minute;
+- HTTP/2 over TLS negotiation, retries, and throttling that averages 60
+  requests per minute, allowing short bursts;
 - explicit pagination and retrieval metadata;
 - dates converted to `Date` and the update timestamp converted to `POSIXct`;
 - nested objects preserved as list-columns;

@@ -185,7 +185,10 @@
 
   last_page <- total_pages
   if (is.finite(page_limit)) {
-    last_page <- min(last_page, page + as.integer(page_limit) - 1L)
+    # Kept in double: `page + as.integer(page_limit)` overflows to NA when the
+    # limit is near the integer maximum, even though the range that survives
+    # `min()` is always small.
+    last_page <- min(last_page, page + (as.numeric(page_limit) - 1))
   }
 
   # `seq.int()` counts backwards when its second argument is the smaller one, so
@@ -195,7 +198,10 @@
   }
 
   pages <- seq.int(page + 1L, last_page)
-  remaining <- purrr::map(pages, function(page) {
+  # `lapply()`, not `purrr::map()`: purrr wraps errors in `purrr_error_indexed`,
+  # which would strip the documented condition class from any failure on the
+  # second page onwards.
+  remaining <- lapply(pages, function(page) {
     .obrasgovr_fetch_page(
       metadata$endpoint,
       filters,
@@ -252,6 +258,23 @@
     )
   }
 
+  # The response says which page it is. Without checking, a server or proxy that
+  # answers page 2 with page 1 would be silently collected as if it were new
+  # data, duplicating records under the guise of a complete result.
+  returned <- body$page_number
+  if (is.numeric(returned) && length(returned) == 1L && !is.na(returned)) {
+    if (as.integer(returned) != as.integer(page)) {
+      cli::cli_abort(
+        c(
+          "The API returned page {.val {as.integer(returned)}} when page
+           {.val {as.integer(page)}} was requested.",
+          "i" = "Collecting it would duplicate records."
+        ),
+        class = "obrasgovr_response_error"
+      )
+    }
+  }
+
   body
 }
 
@@ -261,11 +284,16 @@
 .response_total <- function(body, field) {
   value <- body[[field]]
 
+  # Fractional, infinite and out-of-range totals must be rejected here too:
+  # `as.integer()` would quietly truncate the first and turn the others into
+  # `NA`, which then breaks page-range arithmetic with an unclassified error.
   if (
     !is.numeric(value) ||
       length(value) != 1L ||
-      is.na(value) ||
-      value < 0
+      !is.finite(value) ||
+      value < 0 ||
+      value > .Machine$integer.max ||
+      value %% 1 != 0
   ) {
     cli::cli_abort(
       c(
@@ -297,14 +325,19 @@
 
   for (column in date_columns) {
     value <- result[[column]]
-    present <- !is.na(value)
 
-    if (
-      is.character(value) &&
-        any(present) &&
-        all(grepl("^\\d{4}-\\d{2}-\\d{2}$", value[present]))
-    ) {
-      result[[column]] <- as.Date(value)
+    if (!is.character(value) || !any(!is.na(value))) {
+      next
+    }
+
+    # The format must be explicit: `as.Date()` guesses otherwise, and then a
+    # value like "2026-02-30" matches the ISO shape but is not a real date, so
+    # it errors outright when it is the only value present. Convert only when
+    # every value parses, so a column is never silently emptied.
+    parsed <- as.Date(value, format = "%Y-%m-%d")
+
+    if (!any(is.na(parsed) & !is.na(value))) {
+      result[[column]] <- parsed
     }
   }
 

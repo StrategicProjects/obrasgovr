@@ -23,15 +23,31 @@ local_recorded_requests <- function(handler = NULL, env = parent.frame()) {
   recorded
 }
 
-mock_paginated_response <- function(data = list(), total_pages = 1L) {
+# `page_number` must reflect the page actually being answered: hardcoding it to
+# 1 made every multi-page fixture claim to be page 1, which is exactly the
+# inconsistency the client now rejects.
+mock_paginated_response <- function(data = list(),
+                                    total_pages = 1L,
+                                    page_number = 1L) {
   httr2::response_json(
     status_code = 200L,
     body = list(
       data = data,
       total_pages = total_pages,
       total_items = length(data),
-      page_number = 1L,
+      page_number = page_number,
       page_size = 50L
     )
+  )
+}
+
+# Builds a response from literal JSON, so that fixtures can express what the API
+# actually sends. `httr2::response_json()` round-trips through jsonlite, which
+# turns R `NULL` into `{}` and cannot represent a JSON `null`.
+mock_json_response <- function(json, status_code = 200L) {
+  httr2::response(
+    status_code = status_code,
+    headers = list(`Content-Type` = "application/json"),
+    body = charToRaw(json)
   )
 }

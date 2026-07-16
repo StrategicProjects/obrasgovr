@@ -1,8 +1,9 @@
 test_that("multiple pages are combined into a typed tibble", {
+  # Branch on the call index, not the URL: this test sets `page_size = 1`, so
+  # matching "pagina=1" also matches "tamanho_da_pagina=1" and served the
+  # first page's body for both requests.
   recorded <- local_recorded_requests(function(req, n) {
-    url <- httr2::req_get_url(req)
-
-    if (grepl("pagina=1", url, fixed = TRUE)) {
+    if (n == 1L) {
       return(mock_paginated_response(
         data = list(list(
           id_projeto_investimento = "1.00-00",
@@ -12,7 +13,8 @@ test_that("multiple pages are combined into a typed tibble", {
             list(nome = "Orgao B")
           )
         )),
-        total_pages = 2L
+        total_pages = 2L,
+        page_number = 1L
       ))
     }
 
@@ -22,7 +24,8 @@ test_that("multiple pages are combined into a typed tibble", {
         dt_cadastro = "2026-02-03",
         executores = list()
       )),
-      total_pages = 2L
+      total_pages = 2L,
+      page_number = 2L
     )
   })
 
@@ -50,7 +53,8 @@ test_that("page limits are respected", {
   recorded <- local_recorded_requests(function(req, n) {
     mock_paginated_response(
       data = list(list(id_projeto_investimento = as.character(n))),
-      total_pages = 10L
+      total_pages = 10L,
+      page_number = n
     )
   })
 
@@ -147,4 +151,82 @@ test_that("dates declared by the resource are typed regardless of prefix", {
 
   expect_s3_class(result$vigencia_inicio_contrato, "Date")
   expect_s3_class(result$data_assinatura_contrato, "Date")
+})
+
+test_that("JSON null becomes a missing scalar, not a list cell", {
+  httr2::local_mocked_responses(list(mock_json_response(
+    '{"data":[{"vigencia_fim_contrato":"2026-12-31"},
+              {"vigencia_fim_contrato":null}],
+      "total_pages":1,"total_items":2}'
+  )))
+
+  result <- get_contracts(base_url = "https://example.test/obras")
+
+  expect_s3_class(result$vigencia_fim_contrato, "Date")
+  expect_true(is.na(result$vigencia_fim_contrato[2]))
+})
+
+test_that("unusable pagination totals are rejected", {
+  # `as.integer()` would truncate 1.5 to 1 and turn Inf or an out-of-range
+  # total into NA, breaking page arithmetic with an unclassified error.
+  for (total in c("1.5", "1e999", "9999999999")) {
+    httr2::local_mocked_responses(list(mock_json_response(sprintf(
+      '{"data":[{"id":"A"}],"total_pages":%s,"total_items":1}', total
+    ))))
+
+    expect_error(
+      get_projects(all_pages = TRUE, base_url = "https://example.test/obras"),
+      class = "obrasgovr_response_error"
+    )
+  }
+})
+
+test_that("the largest accepted page limit does not overflow", {
+  # `page + as.integer(page_limit)` overflowed to NA at the documented maximum.
+  page <- 0L
+  httr2::local_mocked_responses(function(req) {
+    page <<- page + 1L
+    mock_json_response(sprintf(
+      '{"data":[{"id":"p%d"}],"total_pages":3,"total_items":3,
+        "page_number":%d}',
+      page, page
+    ))
+  })
+
+  result <- get_projects(
+    all_pages = TRUE,
+    page_limit = .Machine$integer.max,
+    base_url = "https://example.test/obras"
+  )
+
+  expect_identical(nrow(result), 3L)
+})
+
+test_that("a page that is not the one requested is rejected", {
+  # A server answering page 2 with page 1 would otherwise be collected as new
+  # data, duplicating records under the guise of a complete result.
+  httr2::local_mocked_responses(function(req) {
+    mock_json_response(
+      '{"data":[{"id":"always-1"}],"total_pages":3,"total_items":3,
+        "page_number":1}'
+    )
+  })
+
+  expect_error(
+    get_projects(all_pages = TRUE, base_url = "https://example.test/obras"),
+    class = "obrasgovr_response_error"
+  )
+})
+
+test_that("impossible calendar dates are kept rather than dropped", {
+  # "2026-02-30" matches the ISO shape but is not a real date: `as.Date()`
+  # errored on it outright when it was the only value present.
+  httr2::local_mocked_responses(list(mock_json_response(
+    '{"data":[{"dt_cadastro":"2026-02-30"}],"total_pages":1,"total_items":1}'
+  )))
+
+  result <- get_projects(base_url = "https://example.test/obras")
+
+  expect_type(result$dt_cadastro, "character")
+  expect_identical(result$dt_cadastro, "2026-02-30")
 })

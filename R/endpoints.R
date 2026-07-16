@@ -387,34 +387,39 @@ get_last_update <- function(base_url = .obrasgovr_base_url()) {
   .parse_timestamp(value)
 }
 
-# The API reports naive UTC timestamps, but a value carrying an offset must not
-# be read as UTC: `strptime()` ignores trailing characters, which would shift
-# the result by the offset. Unparseable input returns `NA` rather than erroring,
-# so the result has to be checked explicitly.
 .parse_timestamp <- function(value) {
-  formats <- c(
-    "%Y-%m-%dT%H:%M:%OS%z",
-    "%Y-%m-%dT%H:%M:%OSZ",
-    "%Y-%m-%dT%H:%M:%OS"
+  # `strptime()` stops at the first character it cannot use and ignores the
+  # rest, so the whole string must be validated before parsing. Otherwise
+  # "...T00:00:00junk", or an offset truncated to "-03", would parse as a naive
+  # UTC timestamp and be accepted as if it were well formed.
+  pattern <- paste0(
+    "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}",
+    "([.][0-9]+)?(Z|[+-][0-9]{2}:?[0-9]{2})?$"
   )
-  offset <- grepl("([+-][0-9]{2}:?[0-9]{2}|Z)$", value)
 
-  for (format in formats) {
-    # Only try offset-aware formats when an offset is actually present, and
-    # naive ones only when it is not; otherwise a trailing offset is dropped.
-    if (xor(offset, grepl("%z|Z$", format))) {
-      next
-    }
-    parsed <- as.POSIXct(
-      sub("([+-][0-9]{2}):([0-9]{2})$", "\\1\\2", value),
-      format = format,
-      tz = "UTC"
-    )
-    if (!is.na(parsed)) {
-      return(parsed)
-    }
+  if (!grepl(pattern, value)) {
+    .abort_timestamp(value)
   }
 
+  # The API reports naive UTC, but a value carrying an offset must be converted
+  # rather than read as UTC. `Z` is UTC already, so dropping it is safe.
+  has_offset <- grepl("[+-][0-9]{2}:?[0-9]{2}$", value)
+  format <- if (has_offset) "%Y-%m-%dT%H:%M:%OS%z" else "%Y-%m-%dT%H:%M:%OS"
+  normalized <- sub("([+-][0-9]{2}):([0-9]{2})$", "\\1\\2", value)
+  normalized <- sub("Z$", "", normalized)
+
+  parsed <- as.POSIXct(normalized, format = format, tz = "UTC")
+
+  # A well-shaped but impossible date, such as "2026-02-30T00:00:00", still
+  # yields `NA` here rather than an error.
+  if (is.na(parsed)) {
+    .abort_timestamp(value)
+  }
+
+  parsed
+}
+
+.abort_timestamp <- function(value) {
   cli::cli_abort(
     "The data update response has an unparseable timestamp: {.val {value}}.",
     class = "obrasgovr_response_error"
