@@ -12,6 +12,9 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      # covr::codecov() reads this; without it the upload is anonymous and
+      # gets rejected by Codecov's rate limit, leaving the badge unknown.
+      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
     steps:
       - uses: actions/checkout@v4
       - uses: r-lib/actions/setup-r@v2
