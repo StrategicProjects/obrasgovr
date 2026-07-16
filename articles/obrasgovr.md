@@ -203,7 +203,9 @@ options(
 ```
 
 By default, the client requests HTTP/2 over TLS, retries transient
-failures, and limits access to 60 requests per minute.
+failures, and throttles requests to an average of 60 per minute.
+Throttling uses a token bucket, so a burst of up to 60 requests may go
+out before the rate settles.
 
 ## Next steps
 
