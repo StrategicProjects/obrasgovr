@@ -3,11 +3,12 @@
 ^\.github$
 ^\.lintr$
 ^\.DS_Store$
+^\.claude$
 ^README\.Rmd$
-^README\.md$
 ^README\.html$
 ^LICENSE\.md$
 ^_pkgdown\.yml$
+^pkgdown$
 ^docs$
 ^cran-comments\.md$
 ^CODE_OF_CONDUCT\.md$

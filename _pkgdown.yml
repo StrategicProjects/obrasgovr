@@ -4,7 +4,9 @@ template:
   bootstrap: 5
   bootswatch: flatly
   bslib:
-    primary: "#1351B4"
+    primary: "#005EA8"
+    secondary: "#00A1C9"
+    success: "#168821"
     base_font: system-ui
     heading_font: system-ui
     code_font: monospace
@@ -29,8 +31,12 @@ navbar:
       text: Reference
       href: reference/index.html
     articles:
-      text: Articles
+      text: Guides
       menu:
+      - text: "Start here"
+      - text: Introduction to obrasgovr
+        href: articles/obrasgovr.html
+      - text: "Analysis workflows"
       - text: End-to-end workflow
         href: articles/end-to-end-workflow.html
       - text: Pagination and nested data
@@ -56,24 +62,13 @@ reference:
   - get_feasibility_studies
   - get_last_update
 - title: Discovery and metadata
+  desc: >
+    Each topic also lists its Portuguese compatibility alias, which shares the
+    same help page.
   contents:
   - list_resources
   - list_filters
   - result_metadata
-- title: Portuguese aliases
-  desc: Compatibility aliases with Portuguese names and pagination arguments.
-  contents:
-  - obter_projetos
-  - obter_execucao_fisica
-  - obter_contratos
-  - obter_empenhos
-  - obter_geometrias
-  - obter_historico_situacao
-  - obter_estudos_viabilidade
-  - obter_data_atualizacao
-  - obrasgov_recursos
-  - obrasgov_filtros
-  - obrasgov_metadados
 
 articles:
 - title: Guides

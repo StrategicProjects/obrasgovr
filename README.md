@@ -1,6 +1,8 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file. -->
 
+<img class="readme-logo" src="man/figures/logo.svg" align="right" height="180" alt="obrasgovr hex logo" />
+
 # obrasgovr
 
 <!-- badges: start -->
@@ -21,6 +23,9 @@ by the Brazilian federal government. It retrieves data about
 infrastructure projects, physical execution, budget commitments,
 contracts, geometries, feasibility studies, and the status histories of
 suspended or cancelled projects.
+
+> Turn Brazil’s public infrastructure data into analysis-ready R tables
+> with a consistent, typed and pagination-aware interface.
 
 ## Why use obrasgovr?
 
@@ -112,9 +117,11 @@ scheduled to be discontinued on August 31, 2026, and is not supported.
 
 ## Contributing and conduct
 
-Contributions are welcome. Read [CONTRIBUTING.md](CONTRIBUTING.md) and
-the [Code of Conduct](CODE_OF_CONDUCT.md) before opening an issue or
-pull request.
+Contributions are welcome. Read the [contributing
+guide](https://github.com/StrategicProjects/obrasgovr/blob/main/CONTRIBUTING.md)
+and the [Code of
+Conduct](https://github.com/StrategicProjects/obrasgovr/blob/main/CODE_OF_CONDUCT.md)
+before opening an issue or pull request.
 
 ## License
 
