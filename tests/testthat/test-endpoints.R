@@ -1,10 +1,5 @@
 test_that("each public function targets its documented endpoint", {
-  seen <- list()
-  mock <- function(req) {
-    seen[[length(seen) + 1L]] <<- req
-    mock_paginated_response()
-  }
-  httr2::local_mocked_responses(mock)
+  recorded <- local_recorded_requests()
 
   get_projects(base_url = "https://example.test/obras")
   get_commitments(base_url = "https://example.test/obras")
@@ -14,7 +9,7 @@ test_that("each public function targets its documented endpoint", {
   get_status_history(base_url = "https://example.test/obras")
   get_feasibility_studies(base_url = "https://example.test/obras")
 
-  urls <- purrr::map_chr(seen, httr2::req_get_url)
+  urls <- purrr::map_chr(recorded$requests, httr2::req_get_url)
   expected <- c(
     "projeto-investimento",
     "empenho",
@@ -40,17 +35,17 @@ test_that("the update timestamp is parsed in UTC", {
   result <- get_last_update(base_url = "https://example.test/obras")
 
   expect_s3_class(result, "POSIXct")
-  expect_equal(format(result, tz = "UTC"), "2026-07-15")
+  expect_identical(format(result, tz = "UTC"), "2026-07-15")
 })
 
 test_that("resource and filter metadata are discoverable", {
   resources <- list_resources()
   filters <- list_filters("geometries")
 
-  expect_equal(nrow(resources), 8L)
+  expect_identical(nrow(resources), 8L)
   expect_true("get_projects" %in% resources$function_name)
   expect_true("sg_uf" %in% filters$filter)
-  expect_equal(filters$type[filters$filter == "cod_ibge"], "integer")
+  expect_identical(filters$type[filters$filter == "cod_ibge"], "integer")
   expect_error(list_filters("missing"), "Unknown resource")
 })
 
@@ -65,6 +60,6 @@ test_that("Portuguese compatibility aliases remain available", {
     obter_data_atualizacao(base_url = "https://example.test/obras"),
     "POSIXct"
   )
-  expect_equal(nrow(obrasgov_filtros("geometrias")), 6L)
-  expect_equal(nrow(obrasgov_recursos()), 8L)
+  expect_identical(nrow(obrasgov_filtros("geometrias")), 6L)
+  expect_identical(nrow(obrasgov_recursos()), 8L)
 })

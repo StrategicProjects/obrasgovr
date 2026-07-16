@@ -1,7 +1,5 @@
 test_that("multiple pages are combined into a typed tibble", {
-  requests <- list()
-  mock <- function(req) {
-    requests[[length(requests) + 1L]] <<- req
+  recorded <- local_recorded_requests(function(req, n) {
     url <- httr2::req_get_url(req)
 
     if (grepl("pagina=1", url, fixed = TRUE)) {
@@ -26,8 +24,7 @@ test_that("multiple pages are combined into a typed tibble", {
       )),
       total_pages = 2L
     )
-  }
-  httr2::local_mocked_responses(mock)
+  })
 
   result <- get_projects(
     uf_principal = "PE",
@@ -37,28 +34,25 @@ test_that("multiple pages are combined into a typed tibble", {
   )
 
   expect_s3_class(result, "tbl_df")
-  expect_equal(nrow(result), 2L)
+  expect_identical(nrow(result), 2L)
   expect_s3_class(result$dt_cadastro, "Date")
   expect_type(result$executores, "list")
   expect_length(result$executores[[1]], 2L)
-  expect_length(requests, 2L)
+  expect_length(recorded$requests, 2L)
 
   metadata <- result_metadata(result)
-  expect_equal(metadata$total_pages, 2L)
-  expect_equal(metadata$pages_retrieved, 2L)
-  expect_equal(metadata$resource, "projects")
+  expect_identical(metadata$total_pages, 2L)
+  expect_identical(metadata$pages_retrieved, 2L)
+  expect_identical(metadata$resource, "projects")
 })
 
 test_that("page limits are respected", {
-  count <- 0L
-  mock <- function(req) {
-    count <<- count + 1L
+  recorded <- local_recorded_requests(function(req, n) {
     mock_paginated_response(
-      data = list(list(id_projeto_investimento = as.character(count))),
+      data = list(list(id_projeto_investimento = as.character(n))),
       total_pages = 10L
     )
-  }
-  httr2::local_mocked_responses(mock)
+  })
 
   result <- get_projects(
     all_pages = TRUE,
@@ -66,9 +60,9 @@ test_that("page limits are respected", {
     base_url = "https://example.test/obras"
   )
 
-  expect_equal(nrow(result), 3L)
-  expect_equal(count, 3L)
-  expect_equal(result_metadata(result)$pages_retrieved, 3L)
+  expect_identical(nrow(result), 3L)
+  expect_length(recorded$requests, 3L)
+  expect_identical(result_metadata(result)$pages_retrieved, 3L)
 })
 
 test_that("empty API pages return an empty tibble", {
@@ -77,8 +71,8 @@ test_that("empty API pages return an empty tibble", {
   result <- get_contracts(base_url = "https://example.test/obras")
 
   expect_s3_class(result, "tbl_df")
-  expect_equal(nrow(result), 0L)
-  expect_equal(result_metadata(result)$total_items, 0L)
+  expect_identical(nrow(result), 0L)
+  expect_identical(result_metadata(result)$total_items, 0L)
 })
 
 test_that("Portuguese pagination arguments remain compatible", {
@@ -92,5 +86,5 @@ test_that("Portuguese pagination arguments remain compatible", {
     base_url = "https://example.test/obras"
   )
 
-  expect_equal(result_metadata(result)$page_size, 25L)
+  expect_identical(result_metadata(result)$page_size, 25L)
 })
