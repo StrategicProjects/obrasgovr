@@ -112,8 +112,11 @@ and list-columns.
 ## Current API
 
 This package exclusively uses the current environment at
-`https://api-publica.obrasgov.gestao.gov.br/obras`. The previous API is
-scheduled to be discontinued on August 31, 2026, and is not supported.
+`https://api-publica.obrasgov.gestao.gov.br/obras`, and does not support
+the previous API. ObrasGov has set **31 August 2026** as the deadline
+for migrating to this environment; until then the earlier APIs keep
+running and being updated. See the [official
+announcement](https://www.gov.br/obrasgov/pt-br/ferramentas-de-gestao-e-transparencia/api-de-dados-abertos-obrasgov-br_novo).
 
 ## Contributing and conduct
 
