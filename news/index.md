@@ -2,6 +2,8 @@
 
 ## obrasgovr 0.1.0
 
+CRAN release: 2026-07-24
+
 ### New API client
 
 - Renamed the package and repository to `obrasgovr` to avoid a name
