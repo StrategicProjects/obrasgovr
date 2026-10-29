@@ -12,7 +12,7 @@
   getOption(
     "obrasgovr.user_agent",
     paste0(
-      "obrasgovr/0.1.0 ",
+      "obrasgovr/", utils::packageVersion("obrasgovr"), " ",
       "(https://api-publica.obrasgov.gestao.gov.br/obras/docs)"
     )
   )

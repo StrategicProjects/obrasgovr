@@ -63,3 +63,26 @@ test_that("Portuguese compatibility aliases remain available", {
   expect_identical(nrow(obrasgov_filtros("geometrias")), 6L)
   expect_identical(nrow(obrasgov_recursos()), 8L)
 })
+
+test_that("enum filters expose the values the OpenAPI contract declares", {
+  allowed <- function(resource, filter) {
+    filters <- list_filters(resource)
+    filters$allowed_values[[match(filter, filters$filter)]]
+  }
+
+  expect_true("Obra" %in% allowed("projects", "natureza_intervencao"))
+  expect_true(
+    "Construção" %in% allowed("projects", "especie_intervencao")
+  )
+  expect_true(
+    "Serviços de Engenharia" %in%
+      allowed("contracts", "categoria_contrato")
+  )
+  expect_true(
+    "Par de Lat/Long" %in% allowed("geometries", "origem_geometria")
+  )
+  expect_true(
+    "Técnica" %in%
+      allowed("feasibility_studies", "tipo_estudo_viabilidade")
+  )
+})

@@ -77,3 +77,14 @@ test_that("non-finite and oversized pagination arguments are rejected", {
     "positive integer"
   )
 })
+
+test_that("the default user agent reports the installed package version", {
+  agent <- obrasgovr:::.obrasgovr_user_agent()
+
+  expect_true(
+    startsWith(
+      agent,
+      paste0("obrasgovr/", utils::packageVersion("obrasgovr"), " ")
+    )
+  )
+})

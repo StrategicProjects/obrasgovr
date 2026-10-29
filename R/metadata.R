@@ -154,6 +154,15 @@
 
 .obrasgovr_choices <- list(
   projeto_estruturante = c("N\u00c3O", "SIM"),
+  natureza_intervencao = c(
+    "Outros", "Projeto", "Estudo",
+    "Projeto de Investimento em Infraestrutura", "Obra"
+  ),
+  especie_intervencao = c(
+    "M\u00e1quinas e Equipamentos", "Recupera\u00e7\u00e3o",
+    "Constru\u00e7\u00e3o", "Reforma", "Amplia\u00e7\u00e3o",
+    "Fabrica\u00e7\u00e3o"
+  ),
   situacao = c(
     "Cadastrada", "Cancelada", "Conclu\u00edda", "Em execu\u00e7\u00e3o",
     "Inacabada", "Paralisada"
@@ -170,10 +179,21 @@
   bd_origem_empenho = c("modulo_siafi", "cipiws"),
   nome_situacao_minuta = c("ENVIADO", "EM ALTERA\u00c7\u00c3O", "PENDENTE"),
   receita_despesa_contrato = c("Despesa", "Receita"),
+  categoria_contrato = c(
+    "A definir", "Cess\u00e3o", "Compras", "Inform\u00e1tica (TIC)",
+    "M\u00e3o de Obra", "Obras", "Servi\u00e7os",
+    "Servi\u00e7os de Engenharia"
+  ),
   sg_uf = c(
     "AC", "AL", "AM", "AP", "BA", "CE", "DF", "ES", "GO", "MA", "MG",
     "MS", "MT", "PA", "PB", "PE", "PI", "PR", "RJ", "RN", "RO", "RR",
     "RS", "SC", "SE", "SP", "TO"
+  ),
+  origem_geometria = c(
+    "Par de Lat/Long", "Shapefile", "Vetoriza\u00e7\u00e3o"
+  ),
+  tipo_estudo_viabilidade = c(
+    "Econ\u00f4mica", "Ambiental", "Social", "T\u00e9cnica", "Outros"
   )
 )
 

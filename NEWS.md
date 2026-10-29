@@ -1,3 +1,15 @@
+# obrasgovr 0.1.1
+
+- `list_filters()` now reports the allowed values that the OpenAPI contract
+  declares for `natureza_intervencao`, `especie_intervencao`,
+  `categoria_contrato`, `origem_geometria`, and `tipo_estudo_viabilidade`.
+- The default user agent now derives its version from the installed package
+  instead of a hard-coded string.
+- Updated author metadata: accented maintainer name, current contact
+  addresses, and ORCID iDs for every author.
+- Updated the README note about the previous ObrasGov API, whose migration
+  deadline (31 August 2026) has passed.
+
 # obrasgovr 0.1.0
 
 ## New API client
