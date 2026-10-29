@@ -20,7 +20,7 @@
 ## Citation
 
 Source:
-[`inst/CITATION`](https://github.com/StrategicProjects/obrasgovr/blob/main/inst/CITATION)
+[`inst/CITATION`](https://github.com/StrategicProjects/obrasgovr/blob/v0.1.1/inst/CITATION)
 
 Leite A, Wasiliew M, Vasconcelos H, Amorim C, Bezerra D, Nascimento
 Barreto J (2026). *obrasgovr: Access the ObrasGov Open Data API*. R
